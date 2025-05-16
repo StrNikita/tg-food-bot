@@ -15,7 +15,7 @@ export const typeormConfig: PostgresConnectionOptions = {
   username: configService.get('POSTGRES_USER', { infer: true }),
   password: configService.get('POSTGRES_PASSWORD', { infer: true }),
   port: configService.get('POSTGRES_PORT', { infer: true }),
-  logging: configService.get('DB_LOGGING', { infer: true }),
+  logging: false,
   synchronize: false,
   parseInt8: true,
   migrationsTableName: 'migrations',

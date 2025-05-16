@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { I18nModule, QueryResolver } from 'nestjs-i18n';
-import * as path from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,11 +8,11 @@ import { TelegramModule } from './telegram/telegram.module';
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import { typeormConfig } from './common/db/migration.config';
-import { ReportModule } from './report/report.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { CronModule } from './common/modules/cron/cron.module';
 import { TelegramExceptionFilter } from './common/exception-filter/telegram-exception.filter';
 import { JwtModule } from '@nestjs/jwt';
+import { SessionModule } from 'src/session/session.module';
 
 @Module({
   imports: [
@@ -34,17 +32,9 @@ import { JwtModule } from '@nestjs/jwt';
         return validatedConfig;
       },
     }),
-    I18nModule.forRoot({
-      fallbackLanguage: 'en',
-      loaderOptions: {
-        path: path.join(process.cwd(), 'src/i18n'),
-        watch: true,
-      },
-      resolvers: [new QueryResolver(['lang', 'l'])],
-    }),
     TelegramModule,
-    ReportModule,
     CronModule,
+    SessionModule,
   ],
   controllers: [AppController],
   providers: [AppService, TelegramExceptionFilter],
