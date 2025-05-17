@@ -7,6 +7,9 @@ import { TelegramCommandController } from './controller/telegram-command.control
 import { SessionModule } from 'src/session/session.module';
 import { TelegramActionController } from 'src/telegram/controller/telegram-action.controller';
 import { DishModule } from 'src/dish/dish.module';
+import { OrderModule } from 'src/order/order.module';
+import { TelegramDishController } from 'src/telegram/controller/telegram-dishes.controller';
+import { TelegramOrderController } from 'src/telegram/controller/telegram-order.controller';
 
 @Module({
   imports: [
@@ -21,8 +24,9 @@ import { DishModule } from 'src/dish/dish.module';
     }),
     SessionModule,
     DishModule,
+    OrderModule,
   ],
-  providers: [TelegramCommandController, TelegramActionController],
+  providers: [TelegramCommandController, TelegramActionController, TelegramDishController, TelegramOrderController],
   exports: [],
 })
 export class TelegramModule {}

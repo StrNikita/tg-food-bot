@@ -3,7 +3,7 @@ import { Action, Ctx, Update } from 'nestjs-telegraf';
 import { DishService } from 'src/dish/dish.service';
 import { DishType } from 'src/dish/enum/dish-type.enum';
 import { DishButtons } from 'src/telegram/helper/buttons';
-import { drinksMenuMessage, mainMenuMessage, orderMessage } from 'src/telegram/message/bot-messages';
+import { drinksMenuMessage, mainMenuMessage } from 'src/telegram/message/bot-messages';
 import { Context } from 'telegraf';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class TelegramActionController {
     }
 
     const dishes = await this.dishService.findAllByType(DishType.MAIN);
-    await ctx.reply(mainMenuMessage(), {
+    await ctx.editMessageText(mainMenuMessage(), {
       reply_markup: {
         inline_keyboard: [...DishButtons(dishes), [{ text: '🔙 Вернутся', callback_data: 'back_to_main' }]],
       },
@@ -32,34 +32,16 @@ export class TelegramActionController {
     }
 
     const dishes = await this.dishService.findAllByType(DishType.DRINK);
-    await ctx.reply(drinksMenuMessage(), {
+    await ctx.editMessageText(drinksMenuMessage(), {
       reply_markup: {
         inline_keyboard: [...DishButtons(dishes), [{ text: '🔙 Вернутся', callback_data: 'back_to_main' }]],
       },
     });
   }
 
-  // TODO:
-  @Action('show_order')
-  async showOrder(@Ctx() ctx: Context) {
-    if (!ctx.from) {
-      return;
-    }
-
-    await ctx.reply(orderMessage(), {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: '🍽 Основное Меню', callback_data: 'show_menu' }],
-          [{ text: '☕️ Барное меню', callback_data: 'show_drinks' }],
-          [{ text: '📄 Заказ', callback_data: 'show_order' }],
-        ],
-      },
-    });
-  }
-
   @Action('back_to_main')
   async backToMainMenu(@Ctx() ctx: Context) {
-    await ctx.editMessageCaption('Что нибудь ещё или посмотрим заказ?', {
+    await ctx.editMessageText('Что нибудь ещё или посмотрим заказ?', {
       reply_markup: {
         inline_keyboard: [
           [{ text: '🍽 Основное Меню', callback_data: 'show_menu' }],

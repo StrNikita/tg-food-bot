@@ -14,6 +14,7 @@ import { TelegramExceptionFilter } from './common/exception-filter/telegram-exce
 import { JwtModule } from '@nestjs/jwt';
 import { SessionModule } from 'src/session/session.module';
 import { DishModule } from 'src/dish/dish.module';
+import { OrderModule } from 'src/order/order.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { DishModule } from 'src/dish/dish.module';
     CronModule,
     SessionModule,
     DishModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService, TelegramExceptionFilter],

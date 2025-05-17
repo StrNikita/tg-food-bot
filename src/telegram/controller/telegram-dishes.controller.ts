@@ -11,7 +11,7 @@ export class TelegramDishController {
   constructor(private readonly dishService: DishService) {}
 
   @Action(/^dish.+$/)
-  async showMenu(@Ctx() ctx: Context) {
+  async showDishDetail(@Ctx() ctx: Context) {
     if (!ctx.from) {
       return;
     }
@@ -20,7 +20,9 @@ export class TelegramDishController {
     const dishId = callbackQuery.data.split(':')[1] as string;
     const dish = await this.dishService.findOneByUuid(dishId);
     if (!dish) {
-      ctx.reply('Упс, кажется это блюдо пропало из меню!');
+      ctx.editMessageText('Упс, кажется это блюдо пропало из меню!', {
+        reply_markup: { inline_keyboard: [[{ text: 'К меню', callback_data: 'back_to_main' }]] },
+      });
       return;
     }
 
