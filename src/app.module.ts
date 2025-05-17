@@ -13,6 +13,7 @@ import { CronModule } from './common/modules/cron/cron.module';
 import { TelegramExceptionFilter } from './common/exception-filter/telegram-exception.filter';
 import { JwtModule } from '@nestjs/jwt';
 import { SessionModule } from 'src/session/session.module';
+import { DishModule } from 'src/dish/dish.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { SessionModule } from 'src/session/session.module';
     TelegramModule,
     CronModule,
     SessionModule,
+    DishModule,
   ],
   controllers: [AppController],
   providers: [AppService, TelegramExceptionFilter],

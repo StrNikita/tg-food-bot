@@ -4,9 +4,9 @@ import { TelegrafModule } from 'nestjs-telegraf';
 import { session } from 'telegraf';
 import { EnvironmentVariables } from 'src/types/env';
 import { TelegramCommandController } from './controller/telegram-command.controller';
-import { ReportModule } from 'src/report/report.module';
 import { SessionModule } from 'src/session/session.module';
 import { TelegramActionController } from 'src/telegram/controller/telegram-action.controller';
+import { DishModule } from 'src/dish/dish.module';
 
 @Module({
   imports: [
@@ -19,8 +19,8 @@ import { TelegramActionController } from 'src/telegram/controller/telegram-actio
         middlewares: [session()],
       }),
     }),
-    ReportModule,
     SessionModule,
+    DishModule,
   ],
   providers: [TelegramCommandController, TelegramActionController],
   exports: [],
