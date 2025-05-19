@@ -3,12 +3,14 @@ import { OrderRepository } from 'src/order/order.repository';
 import { OrderEntity } from 'src/order/order.entity';
 import { OrderStatusEnum } from 'src/order/enum/order-status.enum';
 import { DishService } from 'src/dish/dish.service';
+import EventEmitter2 from 'eventemitter2';
 
 @Injectable()
 export class OrderService {
   constructor(
     private readonly orderRepository: OrderRepository,
     private readonly dishService: DishService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   public async find(): Promise<OrderEntity[]> {
@@ -49,7 +51,17 @@ export class OrderService {
     await this.orderRepository.updateStatus(orderId, status);
 
     if (status === OrderStatusEnum.PENDING) {
-      console.log('notify nikita with ', orderId);
+      this.eventEmitter.emit('order.pending', { orderId });
+    } else if (status === OrderStatusEnum.IN_PROGRESS) {
+      this.eventEmitter.emit('order.in_progress', { orderId });
+    } else if (status === OrderStatusEnum.COMPLETED) {
+      this.eventEmitter.emit('order.completed', { orderId });
     }
+  }
+
+  public async updateRate(orderId: string, rate: string): Promise<void> {
+    await this.orderRepository.updateRate(orderId, rate);
+
+    this.eventEmitter.emit('order.rated', { orderId });
   }
 }

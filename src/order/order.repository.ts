@@ -71,9 +71,14 @@ export class OrderRepository {
     }
 
     await this.orderEntity.update(orderId, { status });
+  }
 
-    if (status === OrderStatusEnum.PENDING) {
-      console.log('notify nikita with ', order.uuid);
+  public async updateRate(orderId: string, rate: string): Promise<void> {
+    const order = await this.findOneByUuid(orderId);
+    if (!order) {
+      return;
     }
+
+    await this.orderEntity.update(orderId, { rate });
   }
 }

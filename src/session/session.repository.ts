@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { SessionRoleEnum } from 'src/session/enum/session-role.enum';
 import { SessionEntity } from 'src/session/session.entity';
 import { Repository } from 'typeorm';
 
@@ -13,6 +14,14 @@ export class SessionRepository {
   public async findOneByTgId(tg_id: number): Promise<SessionEntity | null> {
     const session = await this.sessionEntity.findOne({
       where: { tg_id },
+    });
+
+    return session;
+  }
+
+  public async findOneChef(): Promise<SessionEntity | null> {
+    const session = await this.sessionEntity.findOne({
+      where: { role: SessionRoleEnum.CHEF },
     });
 
     return session;

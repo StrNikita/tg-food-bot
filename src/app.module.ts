@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -34,6 +35,7 @@ import { OrderModule } from 'src/order/order.module';
         return validatedConfig;
       },
     }),
+    EventEmitterModule.forRoot(),
     TelegramModule,
     CronModule,
     SessionModule,

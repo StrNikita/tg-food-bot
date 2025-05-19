@@ -11,6 +11,9 @@ export class OrderEntity extends BaseEntity {
   @Column({ nullable: false, type: 'enum', default: OrderStatusEnum.DRAFT, enum: OrderStatusEnum })
   status: OrderStatusEnum;
 
+  @Column({ nullable: true, type: 'text' })
+  rate: string;
+
   @ManyToMany(() => DishEntity, dish => dish.orders)
   @JoinTable()
   dishes: DishEntity[];

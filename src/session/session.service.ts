@@ -10,6 +10,10 @@ export class SessionService {
     return this.sessionRepository.findOneByTgId(tg_id);
   }
 
+  public async getOneChef(): Promise<SessionEntity | null> {
+    return this.sessionRepository.findOneChef();
+  }
+
   public async create(tg_id: number): Promise<void> {
     await this.sessionRepository.create(tg_id);
   }
