@@ -1,6 +1,15 @@
 version: '3.8'
 
 services:
+  main:
+    build:
+      context: .
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    depends_on:
+      - postgres
+    restart: always
+
   postgres:
     container_name: postgres_restaurant
     image: postgres:latest
